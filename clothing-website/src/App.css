@@ -1,10 +1,13 @@
+/* Root Styles */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
   text-align: center;
 }
 
+/* Optional: React logo animation */
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -26,17 +29,114 @@
     transform: rotate(360deg);
   }
 }
-
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
 }
 
+/* Card and Docs */
 .card {
   padding: 2em;
 }
-
 .read-the-docs {
   color: #888;
+}
+
+/* Full Page Background Section */
+.full-background {
+  background: url('/background-pernell.jpeg') center/cover no-repeat;
+  min-height: 120vh; /* ✅ Allows content to go further down */
+  width: 100%;
+  position: relative;
+  color: white;
+}
+
+
+
+
+/* Optional wrapper to bring content above overlay */
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Email Form Container */
+.email-container {
+  position: absolute;
+  bottom: 2px; /* ✅ lower near the bottom of the scrollable area */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 15px 20px;
+  border-radius: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  z-index: 2;
+}
+
+
+
+/* Input Styles */
+.email-input {
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  width: 250px;
+  background-color: #1e2a38;
+  color: white;
+}
+
+/* Button Styles */
+.submit-button {
+  padding: 14px 24px;              /* increased padding */
+  font-size: 1.325rem;             /* slightly larger font */
+  border: none;
+  background-color: #298fd7;
+  color: white;
+  border-radius: 8px;              /* optional: rounder corners */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #060997;       /* optional: hover effect */
+}
+
+
+/* Remove all default margin/padding + height coverage */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: black; /* fallback */
+}
+
+@keyframes joyridePulse {
+  0% {
+    box-shadow: 0 0 0 6px rgba(83, 255, 77, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 0 14px rgba(186, 47, 142, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 6px rgba(44, 18, 128, 0.6);
+  }
+}
+
+.joyride-spotlight {
+  border-radius: 12px !important;
+  transform: scale(1.05) !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  box-shadow: 0 0 0 6px rgba(200, 193, 188, 0.6) !important;
+  animation: joyridePulse 1.8s infinite !important;
+  transition: all 0.3s ease-in-out !important;
+  z-index: 10001 !important;
+}
+
+div[data-testid="joyride"] {
+  z-index: 99999 !important;
+  position: relative !important;
 }

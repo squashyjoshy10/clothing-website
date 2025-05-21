@@ -13,6 +13,7 @@ export default function Navbar() {
       {/* Hamburger Icon */}
       <button
         onClick={handleToggle}
+        className="hamburger-icon" // ✅ Added this line for the Joyride tutorial
         style={{
           fontSize: "2rem",
           position: "fixed",
@@ -22,6 +23,7 @@ export default function Navbar() {
           background: "none",
           border: "none",
           cursor: "pointer",
+          color: "white",
         }}
         aria-label="Menu"
       >
@@ -78,4 +80,3 @@ export default function Navbar() {
     </div>
   );
 }
-

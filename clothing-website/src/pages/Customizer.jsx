@@ -1,6 +1,9 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
 import emailjs from '@emailjs/browser';
+import Joyride from 'react-joyride';
+import { useTour } from '../context/TourContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Customizer() {
   const [clothing, setClothing] = useState("");
@@ -8,10 +11,12 @@ export default function Customizer() {
   const [comments, setComments] = useState("");
   const [image, setImage] = useState(null);
 
+  const { runTour, stepIndex, setStepIndex, setRunTour } = useTour();
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Template parameters for EmailJS
     const templateParams = {
       clothing,
       fabric,
@@ -19,13 +24,12 @@ export default function Customizer() {
       image: image ? image.name : "None",
     };
 
-    // Send email using EmailJS
     emailjs
       .send(
-        'service_5c60034',       // Replace with your EmailJS service ID
-        'template_cpvxxxh9',      // Replace with your EmailJS template ID
+        'service_5c60034',
+        'template_cpvxxxh9',
         templateParams,
-        'aqUc55vcq16uFIf9m'        // Replace with your EmailJS public key
+        'aqUc55vcq16uFIf9m'
       )
       .then(
         (response) => {
@@ -41,13 +45,55 @@ export default function Customizer() {
 
   return (
     <div>
+      <Joyride
+        steps={[
+          {
+            target: '.customizer-step',
+            content: 'Start your custom design by picking the type of clothing you want!',
+          }
+        ]}
+        run={runTour}
+        stepIndex={stepIndex === 3 ? 0 : -1}
+        continuous
+        showProgress
+        showSkipButton
+        scrollToFirstStep
+        scrollToSteps
+        callback={(data) => {
+          const { status, type } = data;
+
+          if (type === 'step:after' && stepIndex === 3) {
+            setStepIndex(4); // advance to final step
+            navigate('/products');
+          }
+
+          if (['finished', 'skipped'].includes(status)) {
+            setRunTour(false);
+            setStepIndex(0);
+          }
+        }}
+        styles={{
+          options: {
+            zIndex: 10000,
+            primaryColor: '#ff914d',
+          },
+        }}
+        locale={{
+          back: 'Back',
+          close: 'Close',
+          last: 'Done',
+          next: 'Next',
+          skip: 'Skip',
+        }}
+      />
+
       <Navbar />
       <form
         onSubmit={handleSubmit}
         style={{ padding: "2rem", maxWidth: "600px", margin: "auto" }}
       >
         {/* Clothing Dropdown */}
-        <label>
+        <label className="customizer-step">
           <strong>Choose Clothing Type:</strong>
           <select
             value={clothing}
@@ -118,6 +164,7 @@ export default function Customizer() {
     </div>
   );
 }
+
 
 
 
